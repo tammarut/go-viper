@@ -1,5 +1,5 @@
 app:
-  env: "development"
+  env: 
   port: 8080
   debug: true
 
