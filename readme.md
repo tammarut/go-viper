@@ -1,5 +1,5 @@
 # Golang and viper
-how to implement them ["github.com/spf13/viper"]
+how to implement them <a href="https://github.com/spf13/viper">https://github.com/spf13/viper</a>.
 >Viper is a popular configuration library that’s designed with 12-factor applications in mind.
 
 
