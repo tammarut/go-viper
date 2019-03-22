@@ -2,59 +2,52 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"log"
 
 	"github.com/spf13/viper"
 )
 
+//Configuration is struct for decode..
+type Configuration struct {
+	App     AppConfiguration
+	MongoDb DatabaseConfiguration
+	Log     LogConfiguration
+}
+
+//AppConfiguration is sub-struct Configuration
+type AppConfiguration struct {
+	Env   string
+	port  int
+	debug bool
+}
+
+//DatabaseConfiguration is sub-struct Configuration
+type DatabaseConfiguration struct {
+	Connection string
+}
+
+//LogConfiguration is sub-struct Configuration
+type LogConfiguration struct {
+	Level  string
+	Format string
+}
+
 func main() {
-	//=>ชื่อfile config.yaml
 	viper.SetConfigName("config")
-
-	//=>Path
 	viper.AddConfigPath(".")
+	if err := viper.ReadInConfig(); err != nil {
+		log.Fatalf("Error reading config file, %s", err)
+	}
 
-	//=>อ่านvalue จากENV variable
-	viper.AutomaticEnv()
-
-	//=> แทน _ ด้วย . ในenv
-	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
-
-	//=> read config
-	err := viper.ReadInConfig()
+	var config Configuration
+	err := viper.Unmarshal(&config)
 	if err != nil {
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+		log.Printf("can't decode into struct: %v", err)
 	}
 
-	//.Viper Method
-	fmt.Println(viper.Get("app.env"))
-	fmt.Println(viper.Get("app.port"))
-	fmt.Println(viper.Get("app.debug"))
-	fmt.Println("=========================")
-
-	//=>Get as "string"
-	fmt.Println(viper.GetString("mongodb.connection"))
-	fmt.Printf("%T \n", viper.GetString("mongodb.connection"))
-	fmt.Println("=========================")
-
-	//=>Get as bool(true/false)
-	fmt.Println(viper.GetBool("app.debug"))
-	fmt.Println("=========================")
-
-	//=>Return bool
-	if viper.IsSet("app.debug") {
-		fmt.Println("Yep! debug")
-	}
-	fmt.Println("=========================")
-
-	//=>String Map
-	log := viper.GetStringMap("log")
-	fmt.Println(log["level"])
-	fmt.Println(log["format"])
-	fmt.Println("=========================")
-
-	//=>Set default env
-	viper.SetDefault("app.env", "production")
-	fmt.Println(viper.Get("app.env"))
+	fmt.Printf("%+v \n", config)
+	fmt.Printf("%+v \n", config.App)
+	fmt.Printf("%+v \n", config.MongoDb)
+	fmt.Printf("%+v \n", config.Log)
 
 }
