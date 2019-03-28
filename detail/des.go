@@ -53,6 +53,17 @@ func main() {
 	fmt.Println(log["format"])
 	fmt.Println(log["formats"])
 	fmt.Printf("%T\n", log["level"])
+	fmt.Println("=========================")
+
+	//=>as "String" inception
+	actionCode := "acm024-001"
+	url := viper.GetString("actioncode." + actionCode + ".url")
+	fmt.Println(url)
+
+	fmt.Println("=========================")
+	//=>String Map inception
+	urlmap := viper.GetStringMap("actioncode")
+	fmt.Println(urlmap["url"+actionCode])
 
 	fmt.Println("=========================")
 

@@ -6,6 +6,11 @@ app:
 mongodb:
   connection: "mongodb://r1.example.net:27017,r2.example.net:27017/"
 
+actioncode:
+  acm024-001:
+    url: "h"
+
+
 log:
   level: "debug"
   format: "json"
