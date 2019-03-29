@@ -64,6 +64,13 @@ func main() {
 	//=>String Map inception
 	urlmap := viper.GetStringMap("actioncode")
 	fmt.Println(urlmap["url"+actionCode])
+	fmt.Printf("%T\n", urlmap["url"+actionCode])
+
+	fmt.Println("=========================")
+	//=>String Map String
+	urlst := viper.GetStringMapString("actioncode")
+	fmt.Println(urlst["url"+actionCode])
+	fmt.Printf("%T\n", urlst["url"+actionCode])
 
 	fmt.Println("=========================")
 
